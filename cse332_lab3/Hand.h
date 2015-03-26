@@ -18,7 +18,7 @@ public:
 	//using vector dont need a deconstructor
 	//c++ handles that memory
 
-	int size() const;
+	unsigned int size() const;
 
 	Hand& operator=(const Hand& h);
 	bool operator==(const Hand& h);

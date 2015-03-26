@@ -51,5 +51,10 @@ const int WRONGCOMMANDLINEARGS = 10;
 const int NOTENOUGHARGUMENTS_SHUFFLE = 11;
 const int NOCOMMANDLINEARGS = 12;
 const int HANDOUTOFBOUNDS = 13;
+const int INVALIDJSONOBJ = 14;
+const int JSONKEYNOTFOUND = 15;
+const int instance_not_available = 16;
+const int game_already_started = 17;
+const int unknown_game = 18
 
 #endif // !CARDS_H

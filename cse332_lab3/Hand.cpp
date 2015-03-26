@@ -21,7 +21,7 @@ Hand& Hand::operator=(const Hand& h){
 }
 
 //return size of vector
-	 int Hand::size() const{
+unsigned int Hand::size() const{
 	return this->cards.size();
 }
 
