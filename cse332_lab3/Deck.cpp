@@ -88,7 +88,9 @@ const int Deck::size(){
 	return cards.size();
 }
 
-
+void Deck::add_card(Card c){
+	this->cards.push_back(c);
+}
 
 std::ostream& operator<<(std::ostream& out,const Deck& deck){
 	for (auto i = deck.cards.cbegin(); i != deck.cards.cend(); i++){

@@ -17,12 +17,17 @@ public:
 	Hand(const Hand& h) :cards(h.getCards()){};
 	//using vector dont need a deconstructor
 	//c++ handles that memory
-	Hand& operator=(const Hand& h);
+
 	int size() const;
+
+	Hand& operator=(const Hand& h);
 	bool operator==(const Hand& h);
 	bool operator<(const Hand& h);
+	Card& operator[](const size_t);
+
 	std::string asString() const;
 
+	void remove_card(const size_t);
 	const std::vector<Card> getCards() const { return this->cards; } 
 
 private:

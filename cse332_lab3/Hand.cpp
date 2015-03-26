@@ -97,6 +97,22 @@ bool Hand::operator<(const Hand& h){
 	return false;
 }
 
+Card& Hand::operator[](const size_t nIndex){
+	if (nIndex < this->size() && nIndex >= 0){
+		return cards[nIndex];
+	}
+	else
+		throw HANDOUTOFBOUNDS;
+}
+
+void Hand::remove_card(const size_t index){
+	if (index < this->size() && index >= 0){
+		this->cards.erase(this->cards.begin() + index);
+	}
+	else
+		throw HANDOUTOFBOUNDS;
+}
+
 //print out vaid card definition strings
 std::string Hand::asString() const{
 	std::stringstream to_return;

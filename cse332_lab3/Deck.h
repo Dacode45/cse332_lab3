@@ -18,7 +18,7 @@ public:
 
 	Deck() = default;
 	Deck(const char* &filename);
-
+	void add_card(Card);
 	//using vector dont need a deconstructor
 	//compiler supplied is okay
 	//vector handles that memory
