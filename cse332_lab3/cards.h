@@ -27,6 +27,7 @@ int printCards( std::vector<Card> &cards);
 int usageMessage(const char* programName);
 int usageMessage(const char* pName, const char* errMsg);
 //couts error message
+void handleErrMessages(int err);
 void handleErrMessages(const char* pName, int err);
 void handleErrMessages(const char* pName, const char* errMsg);
 

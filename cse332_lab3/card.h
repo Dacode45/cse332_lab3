@@ -23,11 +23,6 @@ struct Card{
 		rank = r;
 	}
 
-	Card(Card& c){
-		suit = c.suit;
-		rank = c.rank;
-	}
-
 	
 };
 bool operator<(const Card& k, const Card& c);

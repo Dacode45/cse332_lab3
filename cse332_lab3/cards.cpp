@@ -435,6 +435,10 @@ int usageMessage(const char* pName, const char* errMsg){
 	}
 }
 
+void handleErrMessages(int err){
+	handleErrMessages(program_name, err);
+}
+
 void handleErrMessages(const char* pName, int err){
 
 	switch (err){

@@ -20,7 +20,8 @@ int main(int argc, char* argv[])
 		cout << it->first << " " << it->second << endl;
 	}*/
 
-	FiveCardDraw d;
+	player p("david");
+	p.save();
 
 	char wait;
 	cin >> wait;

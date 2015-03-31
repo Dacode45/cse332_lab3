@@ -7,9 +7,11 @@
 #include "cards.h"
 #include <regex>
 #include "FiveCardDraw.h"
-
+class FiveCardDraw;
 class Game{
+
 protected:
+
 	static std::shared_ptr < Game > game;
 	Deck main_deck;
 	std::vector<std::shared_ptr<player>> players;
@@ -57,7 +59,7 @@ public:
 	}
 
 	std::shared_ptr<player> find_player(const char* name){
-		for (std::vector<std::shared_ptr<player>>::iterator p = players.begin(); player != players.end(); ++player){
+		for (std::vector<std::shared_ptr<player>>::iterator p = players.begin(); p != players.end(); ++p){
 			if ((*p)->name == name){
 				return *p;
 			}

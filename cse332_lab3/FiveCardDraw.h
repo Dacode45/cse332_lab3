@@ -38,13 +38,13 @@ public:
 				Card c = Card(static_cast<Card::SUIT>(suit), static_cast<Card::RANK>(rank));
 				
 				main_deck.add_card(c);
-				std::cout << deck;
+				std::cout << main_deck;
 			}
 		}
 	}
 
 	virtual int before_turn(player &p){
-		cout << p.name << " : " << p.hand;
+		std::cout << p.name << " : " << p.hand;
 		
 		bool valid_response = false;
 		do{
@@ -53,17 +53,22 @@ public:
 			std::cin >> response;
 			try{
 				size_t position = stoi(response);
-				try{
-					Card actual_card = p.hand[position];
-					discard_deck.add_card(actual_card);
-					p.hand.remove_card(position);
-				}
-				catch(HANDOUTOFBOUNDS){
-					std::count << "No card at that position\n";
-				}
+				Card actual_card = p.hand[position];
+				discard_deck.add_card(actual_card);
+				p.hand.remove_card(position);
 			}
-			catch (invalid_argument){
-				std::cout << "You must enter a number.\n";
+			catch (int e){
+				switch (e){
+				case HANDOUTOFBOUNDS:
+					std::cout << "No card at that position\n";
+					break;
+				default:
+					std::cout << "Invalid Input\n";
+				}
+				
+			}
+			catch (const std::invalid_argument& ia){
+				std::cout << "You must enter a number.\n" << ia.what() << std::endl;
 			}
 
 		} while (!valid_response);
@@ -123,7 +128,7 @@ public:
 	virtual int after_round(){
 
 		std::vector<std::shared_ptr<player>> temp_players(players);
-		std::sort(temp_players.begin(), temp_players.end(), playerComparator);
+		std::sort(temp_players.begin(), temp_players.end(), &FiveCardDraw::playerComparator);
 
 		for (auto p = temp_players.begin(); p != temp_players.end(); ++p){
 			if (p == temp_players.begin()){
@@ -145,15 +150,15 @@ public:
 		do{
 			std::cout << "Any players want to leave\n";
 			std::string answer;
-			std::getline(cin, answer);
+			std::getline(std::cin, answer);
 			if (answer == "no"){
 				players_want_to_leave = false;
 			}
 			else{
 				std::cout << "What is the name of the player who wants to leave?\n";
 				std::string answer2;
-				std::getline(cin, answer2);
-				shared_ptr<player> p = find_player(answer2);
+				std::getline(std::cin, answer2);
+				std::shared_ptr<player> p = find_player(answer2);
 				if (p){
 					//save player data
 					//erase player pointer
@@ -161,20 +166,20 @@ public:
 
 			}
 
-		} while (players_want_to_leave)
+		} while (players_want_to_leave);
 
 		bool players_want_to_join = false;
 
 		do{
 			std::cout << "Any players want to join?\n";
 			std::string answer;
-			std::getline(cin, answer);
+			std::getline(std::cin, answer);
 
 			if (answer != "no"){
 				players_want_to_join = true;
 				std::cout << "What's the player name?\n";
-				std::string name;
-				std::getline(cin, name);
+				char* name;
+				std::getline(std::cin, name);
 
 				try{
 					add_player(name);

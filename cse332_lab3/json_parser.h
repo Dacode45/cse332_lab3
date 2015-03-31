@@ -5,9 +5,10 @@
 #include <string>
 #include <vector>
 #include "cards.h"
+#include <sstream>
 
 struct json_parser{
-	bool empty = false;
+	bool empty = true;
 	std::map<std::string, std::string> obj;
 
 
@@ -18,7 +19,7 @@ struct json_parser{
 		}
 	*/
 	void load_json(const std::string& JSON){
-		empty = false;
+		empty = true;
 		std::regex object_regex("\\{.+\\}");
 		std::smatch object_matches;
 		std::regex_match(JSON, object_matches, object_regex);
@@ -37,7 +38,27 @@ struct json_parser{
 			field = field_matches.suffix().str();
 		}
 
-		empty = true;
+		empty = false;
+	}
+
+	std::string export_json(){
+		std::stringstream ss;
+		ss << "{ ";
+		for (auto it = obj.begin(); it != obj.end(); it++){
+			ss << it->first << ":" << it->second << " ";
+		}
+		ss << " }";
+		return ss.str();
+	}
+
+	static std::string export_json(std::map<std::string, std::string>& o){
+		std::stringstream ss;
+		ss << "{ ";
+		for (auto it = o.begin(); it != o.end(); it++){
+			ss << it->first << ":" << it->second << " ";
+		}
+		ss << " }";
+		return ss.str();
 	}
 
 	std::string get(const std::string& key){
@@ -49,11 +70,16 @@ struct json_parser{
 			throw JSONKEYNOTFOUND;
 	}
 
+	std::string set(const std::string& key, const std::string& value){
+		obj[key] = value;
+	}
+
 	json_parser(const std::string& JSON){
 		try{
 			load_json(JSON);
 		}
-		catch (const int e){
+		catch (int e){
+			handleErrMessages(e);
 			throw INVALIDJSONOBJ;
 		}
 	}

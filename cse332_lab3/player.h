@@ -32,7 +32,7 @@ struct player{
 			save = str.str();
 		}
 		//parse file if there was one
-		if (!save.empty){
+		if (!save.empty()){
 			try{
 				json_parser old_player(save);
 				try{
@@ -41,6 +41,7 @@ struct player{
 				}
 				catch (int e){
 					//do nothing if you can't get it
+					handleErrMessages(e);
 				}
 				try{
 					int gWon = std::stoi(old_player.get("games_won"));
@@ -48,12 +49,26 @@ struct player{
 				}
 				catch (int e){
 					//do nothing if you can't get it
+					handleErrMessages(e);
 				}
 			}
 			catch (int e){
 				//invalid json object
+				handleErrMessages(e);
 			}
 			
+		}
+	}
+
+	void save(){
+		std::map<std::string, std::string> obj;
+		obj["name"] = name;
+		obj["games_lost"] = games_lost;
+		obj["games_won"] = games_won;
+		std::string json = json_parser::export_json(obj);
+		std::ofstream out(name);
+		if (out.is_open()){
+			out << json;
 		}
 	}
 
