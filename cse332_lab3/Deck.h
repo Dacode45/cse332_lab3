@@ -25,6 +25,8 @@ public:
 	int load(const char* &filename);
 	void shuffle();
 	const int size();
+	void collectCards(Hand& h);
+	void collectCards(Deck& d);
 
 private:
 	Deck(const Deck& d) = delete;

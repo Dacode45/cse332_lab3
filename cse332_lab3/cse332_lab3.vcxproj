@@ -82,6 +82,8 @@
     <ClInclude Include="card.h" />
     <ClInclude Include="cards.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="FiveCardDraw.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="json_parser.h" />
     <ClInclude Include="player.h" />

@@ -12,6 +12,7 @@ class Deck;
 class Hand{
 	friend std::ostream& operator<<(std::ostream& out,const Hand& h);
 	friend Hand& operator<<( Hand&h ,  Deck& d);
+	friend Deck;
 public:
 	Hand() = default;
 	Hand(const Hand& h) :cards(h.getCards()){};

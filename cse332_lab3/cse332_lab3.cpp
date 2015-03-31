@@ -5,6 +5,7 @@
 #include <iostream>
 #include "json_parser.h"
 #include "cards.h"
+#include "FiveCardDraw.h"
 
 using namespace std;
 
@@ -14,10 +15,13 @@ int main(int argc, char* argv[])
 {
 	program_name = argv[0];
 
-	json_parser json("{field:value haters:0}");
+	/*json_parser json("{field:value haters:0}");
 	for (auto it = json.obj.cbegin(); it != json.obj.cend(); ++it){
 		cout << it->first << " " << it->second << endl;
-	}
+	}*/
+
+	FiveCardDraw d;
+
 	char wait;
 	cin >> wait;
 	return 0;

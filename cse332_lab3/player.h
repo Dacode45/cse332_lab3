@@ -56,6 +56,10 @@ struct player{
 			
 		}
 	}
+
+	bool operator==(player & p){
+		return this->name == p.name;
+	}
 };
 
 std::ostream& operator<<(std::ostream& out, const player& p){

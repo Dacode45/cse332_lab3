@@ -98,3 +98,13 @@ std::ostream& operator<<(std::ostream& out,const Deck& deck){
 	}
 	return out;
 }
+
+void Deck::collectCards(Hand& h){
+	std::move(h.cards.begin(), h.cards.end(), std::back_inserter(this->cards));
+
+}
+
+void Deck::collectCards(Deck& d){
+	std::move(d.cards.begin(), d.cards.end(), std::back_inserter(this->cards));
+
+}

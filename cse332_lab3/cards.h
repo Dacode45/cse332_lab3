@@ -55,6 +55,9 @@ const int INVALIDJSONOBJ = 14;
 const int JSONKEYNOTFOUND = 15;
 const int instance_not_available = 16;
 const int game_already_started = 17;
-const int unknown_game = 18
+const int unknown_game = 18;
+const int no_game_in_progress = 19;
+const int already_playing = 20;
+const int NOTENOUGHCARDSTODEAL = 21;
 
 #endif // !CARDS_H
