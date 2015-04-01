@@ -7,7 +7,7 @@
 #include <string>
 #include "cards.h"
 
-class FiveCardDraw : Game{
+class FiveCardDraw : public Game{
 
 private:
 	int num_cards_in_hand = 5;
@@ -158,7 +158,7 @@ public:
 				std::cout << "What is the name of the player who wants to leave?\n";
 				std::string answer2;
 				std::getline(std::cin, answer2);
-				std::shared_ptr<player> p = find_player(answer2);
+				std::shared_ptr<player> p = find_player(answer2.c_str());
 				if (p){
 					//save player data
 					//erase player pointer
@@ -178,11 +178,11 @@ public:
 			if (answer != "no"){
 				players_want_to_join = true;
 				std::cout << "What's the player name?\n";
-				char* name;
+				std::string name;
 				std::getline(std::cin, name);
 
 				try{
-					add_player(name);
+					add_player(name.c_str());
 
 				}
 				catch (...){
@@ -193,7 +193,7 @@ public:
 			else
 				players_want_to_join = false;
 
-		} while (players_want_to_join)
+		} while (players_want_to_join);
 		
 	}
 };
