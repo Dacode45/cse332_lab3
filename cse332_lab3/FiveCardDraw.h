@@ -7,6 +7,7 @@
 #include <string>
 #include "cards.h"
 
+class Game;
 class FiveCardDraw : public Game{
 
 private:
@@ -18,7 +19,7 @@ protected:
 	Deck main_deck;
 	Deck discard_deck;
 
-	bool playerComparator(std::shared_ptr<player> p1, std::shared_ptr<player> p2){
+	static bool playerComparator(std::shared_ptr<player> p1, std::shared_ptr<player> p2){
 		if (!p1){
 			return false;
 		}
