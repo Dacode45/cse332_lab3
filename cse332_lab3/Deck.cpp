@@ -100,11 +100,12 @@ std::ostream& operator<<(std::ostream& out,const Deck& deck){
 }
 
 void Deck::collectCards(Hand& h){
-	std::move(h.cards.begin(), h.cards.end(), std::back_inserter(this->cards));
-
+	std::copy(h.cards.begin(), h.cards.end(), std::back_inserter(this->cards));
+	h.cards.erase(h.cards.begin(), h.cards.end());
 }
 
 void Deck::collectCards(Deck& d){
-	std::move(d.cards.begin(), d.cards.end(), std::back_inserter(this->cards));
+	std::copy(d.cards.begin(), d.cards.end(), std::back_inserter(this->cards));
+	d.cards.erase(d.cards.begin(), d.cards.end());
 
 }

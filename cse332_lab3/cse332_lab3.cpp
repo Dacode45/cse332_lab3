@@ -5,6 +5,7 @@
 #include <iostream>
 #include "json_parser.h"
 #include "cards.h"
+#include "Game.h"
 #include "FiveCardDraw.h"
 
 using namespace std;
@@ -20,8 +21,8 @@ int main(int argc, char* argv[])
 	
 	//Check proper number of cmd line arguments
 	if (argc < expected_num_args){
-		handleErrMessages(WRONGCOMMANDLINEARGS);
-		return WRONGCOMMANDLINEARGS;
+		handleErrMessages(NOTENOUGHARGUMENTS);
+		return NOTENOUGHARGUMENTS;
 	}
 
 	//
@@ -44,10 +45,37 @@ int main(int argc, char* argv[])
 		return e;
 	}
 
-	
+	try{
+		game_instance->add_player(argv[args::player1]);
+		game_instance->add_player(argv[args::player2]);
+	}
+	catch (int e){
+		cout << "Could not add the specified players";
+		return e;
+	}
 
-	char wait;
-	cin >> wait;
-	return 0;
+	//two players
+	while (game_instance->size() >= 2){
+		try{
+			if (int brError = game_instance->before_round()){
+				handleErrMessages(brError);
+			}
+			if (int rError = game_instance->round()){
+				handleErrMessages(rError);
+			}
+			if (int arError = game_instance->after_round()){
+				handleErrMessages(arError);
+			}
+		}
+		catch(int e){
+			game.stop_game();
+			cout << "failure";
+			handleErrMessages(e);
+			return e;
+		}
+		
+	}
+
+	
 }
 

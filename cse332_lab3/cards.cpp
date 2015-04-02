@@ -329,7 +329,46 @@ bool poker_rank(const Hand& h1, const Hand& h2){
 	 
 	 unsigned int h1_value = checkHand(h1.getCards());
 	 unsigned int h2_value = checkHand(h2.getCards());
-	 return h1_value < h2_value;
+	 return h1_value > h2_value;
+}
+
+char* hand_type(const Hand& h){
+	int hand_value = std::floor(((float)checkHand(h.getCards())) / ((float)(CARDWEIGHT_TOTAL)));
+	
+	const unsigned int UNRANKED = 0,
+		ONEPAIR = 1,
+		TWOPAIR = 2,
+		THREEKIND = 3,
+		STRAIT = 4,
+		FLUSH = 5,
+		FULLHOUSE = 6,
+		FOURKIND = 7,
+		STRAITFLUSH = 8;
+	
+	switch (hand_value)
+	{
+	case UNRANKED:
+		return "UNRANKED";
+	case ONEPAIR:
+		return "ONEPAIR";
+	case TWOPAIR:
+		return "TWOPAIR";
+	case THREEKIND:
+		return "THREEKIND";
+	case STRAIT:
+		return "STRAIT";
+	case FLUSH:
+		return "FLUSH";
+	case FULLHOUSE:
+		return "FULLHOUSE";
+	case FOURKIND:
+		return "FOURKIND";
+	case STRAITFLUSH:
+		return "STRAITFLUSH";
+	
+	default:
+		return "UNRANKED";
+	}
 }
 
 int printCards( std::vector<Card> &cards){
@@ -410,22 +449,14 @@ int printCards( std::vector<Card> &cards){
 }
 
 int usageMessage(const char* pName){
-	try{
-
-		std::cout << "Usage: " << pName << " game_name player1_name player2_name" << std::endl;
-		return PRINTEDUSAGEMESSAGE;
-	}
-	catch (int e){
-		std::cout << "C++ Error " << e;
-		return FAILEDTOPRINTUSAGE;
-	}
+	return usageMessage(pName, "");
 	
 }
 
 int usageMessage(const char* pName, const char* errMsg){
 	try{
 
-		std::cout << "Usage: " << pName << " game_name player1_name player2_name" << std::endl; 
+		std::cout << "Usage: " << pName << " game_name[\"FiveCardDraw\"] player1_name player2_name" << std::endl; 
 		std::cout << errMsg;
 		return PRINTEDUSAGEMESSAGE;
 	}
@@ -469,7 +500,7 @@ void handleErrMessages(const char* pName, int err){
 		std::cout << "\nThere should only ever be 5 cards in your hand at a time. no more no less\n";
 		break;
 	case WRONGCOMMANDLINEARGS:
-		std::cout << "\nThe only command line arguments should be -shuffle and the file name. \n";
+		std::cout << "\nYou are using incorrect command line arguments \n";
 		usageMessage(program_name);
 		break;
 	case NOTENOUGHARGUMENTS:
@@ -490,6 +521,19 @@ void handleErrMessages(const char* pName, int err){
 		usageMessage(program_name);
 		break;
 
+	case unknown_game:
+		std::cout << "\n Unknown game type. Try again\n";
+		usageMessage(program_name);
+		break;
+
+	case game_already_started:
+		std::cout << "\n Game's already being played. Can not create a new one\n";
+		usageMessage(program_name);
+		break;
+	
+	case already_playing:
+		std::cout << "\nPlayer already playing.\n";
+		break;
 
 	default:
 		break;

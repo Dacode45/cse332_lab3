@@ -6,9 +6,7 @@
 #include "player.h"
 #include "cards.h"
 #include <regex>
-#include "FiveCardDraw.h"
 
-class FiveCardDraw;
 class Game{
 
 protected:
@@ -18,6 +16,9 @@ protected:
 	std::vector<std::shared_ptr<player>> players;
 
 public:
+	
+	int size();
+	
 	static std::shared_ptr<Game> instance();
 
 	static void start_game(const char* type);
@@ -26,15 +27,17 @@ public:
 
 	void add_player(const char* name);
 	std::shared_ptr<player> find_player(const char* name);
+	void remove_player(const char* name);
+	std::string print_players();
 
 	virtual ~Game();
 
-	virtual int before_turn(player &p);
-	virtual int turn(player &p);
-	virtual int after_turn(player &p);
-	virtual int before_round();
-	virtual int round();
-	virtual int after_round();
+	virtual int before_turn(player &p){ return SUCCESS; }
+	virtual int turn(player &p){ return SUCCESS; }
+	virtual int after_turn(player &p){ return SUCCESS; }
+	virtual int before_round(){ return SUCCESS; }
+	virtual int round(){ return SUCCESS; }
+	virtual int after_round(){ return SUCCESS; }
 
 };
 

@@ -1,26 +1,9 @@
-#ifndef FIVECARDDRAW_H
-#define FIVECARDDRAW_H
-
-#include "card.h"
-#include <iostream>
-#include <string>
-#include "cards.h"
+#include "stdafx.h"
 #include "Game.h"
+#include "FiveCardDraw.h"
 
 
-class Game;
-class FiveCardDraw : public Game{
-
-private:
-	int num_cards_in_hand = 5;
-
-
-protected:
-	size_t dealer;
-	Deck main_deck;
-	Deck discard_deck;
-
-	static bool playerComparator(std::shared_ptr<player> p1, std::shared_ptr<player> p2){
+	 bool FiveCardDraw::playerComparator(std::shared_ptr<player> p1, std::shared_ptr<player> p2){
 		if (!p1){
 			return false;
 		}
@@ -30,59 +13,25 @@ protected:
 			}
 			return poker_rank(p1->hand, p2->hand);
 		}
-		
+
 	}
 
-public:
-	FiveCardDraw():dealer(0){
+	 FiveCardDraw::FiveCardDraw() :dealer(0){
 		for (int suit = 1; suit <= 4; suit++){
 			for (int rank = 1; rank <= 13; rank++){
 				Card c = Card(static_cast<Card::SUIT>(suit), static_cast<Card::RANK>(rank));
-				
+
 				main_deck.add_card(c);
-				
+				std::cout << main_deck;
 			}
 		}
-		main_deck.shuffle();
 	}
 
-	virtual int before_turn(player &p){
-		
-		std::cout << p.name << " : " << p.hand << std::endl;
-
+	 int FiveCardDraw::before_turn(player &p){
+		std::cout << p.name << " : " << p.hand;
 
 		bool valid_response = false;
-		size_t num_cards_to_discard = 0;
 		do{
-			
-			std::cout << "How many cards would you like to discard?\n";
-			std::string num_cards;
-			std::cin >> num_cards;
-			try{
-				
-				num_cards_to_discard = stoi(num_cards);
-				if (0 <= num_cards_to_discard && num_cards_to_discard < 5){
-					valid_response = true;
-				}
-				else
-					throw BADINPUT;
-				
-			}
-			
-			catch (const std::invalid_argument& ia){
-				std::cout << "You must enter a number.\n" << ia.what() << std::endl;
-			}
-			catch (...){
-				std::cout << "Invalid Input\nYou may discard 0-4 cards\n";
-
-			}
-
-		} while (!valid_response);
-
-		valid_response = false;
-		
-		while (num_cards_to_discard){
-			std::cout << p.name << " : " << p.hand << std::endl;
 			std::cout << "Which cards would you like to discard?\n";
 			std::string response;
 			std::cin >> response;
@@ -91,7 +40,6 @@ public:
 				Card actual_card = p.hand[position];
 				discard_deck.add_card(actual_card);
 				p.hand.remove_card(position);
-				--num_cards_to_discard;
 			}
 			catch (int e){
 				switch (e){
@@ -101,48 +49,47 @@ public:
 				default:
 					std::cout << "Invalid Input\n";
 				}
-				
+
 			}
 			catch (const std::invalid_argument& ia){
 				std::cout << "You must enter a number.\n" << ia.what() << std::endl;
 			}
-			
-		}
-		
+
+		} while (!valid_response);
+
 		return SUCCESS;
 	}
 
-	virtual int turn(player &p){
+	 int FiveCardDraw::turn(player &p){
 		int card_to_deal = num_cards_in_hand - p.hand.size();
-		while (card_to_deal != 0 ){
-			
+		while (card_to_deal != 0){
+
 			if (main_deck.size() == 0){
 				if (discard_deck.size() == 0)
 					return NOTENOUGHCARDSTODEAL;
 				discard_deck.shuffle();
 				p.hand << discard_deck;
-			}else
+			}
+			else
 				p.hand << main_deck;
 			--card_to_deal;
 		}
 		return SUCCESS;
 	}
 
-	virtual int after_turn(player &p){
-		std::cout << std::endl << p.name << " : " << p.hand << std::endl;
+	 int FiveCardDraw::after_turn(player &p){
+		std::cout << p.name << " : " << p.hand;
 		return SUCCESS;
 	}
 
-	virtual int before_round(){
+	 int FiveCardDraw::before_round(){
 		main_deck.shuffle();
 		size_t start = dealer;
-		start = start % players.size();
-		int cards_to_deal = players.size() * num_cards_in_hand;
+		start = (start++) % players.size();
 		do{
-			(players[start])->hand << main_deck;
-			start = (start+1) % players.size();
-			--cards_to_deal;
-		} while (cards_to_deal);
+			(*players[start]).hand << main_deck;
+			start = (start++) % players.size();
+		} while ((*players[dealer]).hand.size() != num_cards_in_hand);
 
 		for (auto p = players.begin(); p != players.end(); p++){
 			before_turn(*(*p));
@@ -151,7 +98,7 @@ public:
 		return SUCCESS;
 	}
 
-	virtual int round(){
+	 int FiveCardDraw::round(){
 		for (auto p = players.begin(); p != players.end(); p++){
 			if (int turn_error = turn(*(*p))){
 				return turn_error;
@@ -163,14 +110,13 @@ public:
 		return SUCCESS;
 	}
 
-	virtual int after_round(){
+	 int FiveCardDraw::after_round(){
 
 		std::vector<std::shared_ptr<player>> temp_players(players);
 		std::sort(temp_players.begin(), temp_players.end(), &FiveCardDraw::playerComparator);
 
 		for (auto p = temp_players.begin(); p != temp_players.end(); ++p){
 			if (p == temp_players.begin()){
-				std::cout << "\nPlayer: " << (*p)->name << " won" << std::endl;
 				(*(*p)).games_won++;
 
 			}
@@ -179,36 +125,30 @@ public:
 		}
 
 		for (auto p = temp_players.begin(); p != temp_players.end(); ++p){
-			std::cout << (*(*p)) << " : " << (*(*p)).hand << "\t" << hand_type((*p)->hand) <<  std::endl;
-			
+			std::cout << (*(*p)) << " : " << (*(*p)).hand << std::endl;
+
 			main_deck.collectCards((*(*p)).hand);
 		}
 		main_deck.collectCards(discard_deck);
 
 		bool players_want_to_leave = true;
 		do{
-			std::cout << "\n current players are " << print_players() << std::endl;
-			std::cout << std::endl;
-			std::cout << "Any players want to leave (enter \"y\\n\")\n";
-			char answer;
-			std::cin >> answer;
-			std::cin.ignore();
-			if (answer == 'n'){
+			std::cout << "Any players want to leave\n";
+			std::string answer;
+			std::getline(std::cin, answer);
+			if (answer == "no"){
 				players_want_to_leave = false;
 			}
 			else{
 				std::cout << "What is the name of the player who wants to leave?\n";
 				std::string answer2;
 				std::getline(std::cin, answer2);
-				std::cin.ignore();
 				std::shared_ptr<player> p = find_player(answer2.c_str());
 				if (p){
 					//save player data
 					//erase player pointer
-					std::cout << "trying to delete player" << std::endl;
-					p->save();
-					remove_player(p->name.c_str());
 				}
+
 			}
 
 		} while (players_want_to_leave);
@@ -216,35 +156,30 @@ public:
 		bool players_want_to_join = false;
 
 		do{
-			std::cout << "\n current players are " << print_players() <<std::endl;
-			std::cout << std::endl;
-			std::cout << "Any players want to join? (enter \"y\\n\")\n";
-			char answer;
-			std::cin >> answer;
-			std::cin.ignore();
-			if (answer == 'n'){
-				players_want_to_join = false;
-			}else{
+			std::cout << "Any players want to join?\n";
+			std::string answer;
+			std::getline(std::cin, answer);
 
+			if (answer != "no"){
 				players_want_to_join = true;
 				std::cout << "What's the player name?\n";
 				std::string name;
 				std::getline(std::cin, name);
-				std::cin.ignore();
 
 				try{
 					add_player(name.c_str());
 
 				}
-				catch (int e){
-					handleErrMessages(e);
+				catch (...){
+
 				}
-				
+
 			}
+			else
+				players_want_to_join = false;
+
 		} while (players_want_to_join);
-		
+
 		return SUCCESS;
 	}
 };
-
-#endif

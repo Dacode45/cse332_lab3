@@ -36,6 +36,7 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option);
 
 //lab 2
 bool poker_rank(const Hand& h1, const Hand& h2);
+char* hand_type(const Hand& h);
 
 const int SUCCESS= 0;
 const int CANTOPENFILE= 1;
@@ -59,5 +60,6 @@ const int unknown_game = 18;
 const int no_game_in_progress = 19;
 const int already_playing = 20;
 const int NOTENOUGHCARDSTODEAL = 21;
+const int BADINPUT = 22;
 
 #endif // !CARDS_H
