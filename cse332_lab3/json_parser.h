@@ -18,71 +18,17 @@ struct json_parser{
 			"number":4
 		}
 	*/
-	void load_json(const std::string& JSON){
-		empty = true;
-		std::regex object_regex("\\{.+\\}");
-		std::smatch object_matches;
-		std::regex_match(JSON, object_matches, object_regex);
-		
-		if (object_matches.size() == 0){
-			throw INVALIDJSONOBJ;
-		}
-		std::string field = object_matches[0];
+	void load_json(const std::string& JSON);
 
-		std::regex field_regex("(\\w+\\s*):(\\s*\\w+)");
-		std::smatch field_matches;
+	std::string export_json();
 
-		while (std::regex_search(field, field_matches, field_regex)){
+	static std::string export_json(std::map<std::string, std::string>& o);
 
-			obj.insert(std::make_pair(field_matches[1], field_matches[2]));
-			field = field_matches.suffix().str();
-		}
+	std::string get(const std::string& key);
 
-		empty = false;
-	}
+	void set(const std::string& key, const std::string& value);
 
-	std::string export_json(){
-		std::stringstream ss;
-		ss << "{ ";
-		for (auto it = obj.begin(); it != obj.end(); it++){
-			ss << it->first << ":" << it->second << " ";
-		}
-		ss << " }";
-		return ss.str();
-	}
-
-	static std::string export_json(std::map<std::string, std::string>& o){
-		std::stringstream ss;
-		ss << "{ ";
-		for (auto it = o.begin(); it != o.end(); it++){
-			ss << it->first << ":" << it->second << " ";
-		}
-		ss << " }";
-		return ss.str();
-	}
-
-	std::string get(const std::string& key){
-		auto it = obj.find(key);
-		if (it != obj.end()){
-			return it->second;
-		}
-		else
-			throw JSONKEYNOTFOUND;
-	}
-
-	std::string set(const std::string& key, const std::string& value){
-		obj[key] = value;
-	}
-
-	json_parser(const std::string& JSON){
-		try{
-			load_json(JSON);
-		}
-		catch (int e){
-			handleErrMessages(e);
-			throw INVALIDJSONOBJ;
-		}
-	}
+	json_parser(const std::string& JSON);
 };
 
 #endif

@@ -17,7 +17,6 @@ class Deck;
 
 extern const char* program_name;
 
-const int expected_argument_count = 2;
 
 //Parses ; file, and puts contents into a vector. Returns Success or Error.
 int parseCardFile(const char* filename, std::vector<Card> &cards);

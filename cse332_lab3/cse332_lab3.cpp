@@ -11,17 +11,40 @@ using namespace std;
 
 const char* program_name;
 
+const int expected_num_args = 4;
+enum args{pname, game_name, player1, player2};
+
 int main(int argc, char* argv[])
 {
-	program_name = argv[0];
+	program_name = argv[args::pname];
+	
+	//Check proper number of cmd line arguments
+	if (argc < expected_num_args){
+		handleErrMessages(WRONGCOMMANDLINEARGS);
+		return WRONGCOMMANDLINEARGS;
+	}
 
-	/*json_parser json("{field:value haters:0}");
-	for (auto it = json.obj.cbegin(); it != json.obj.cend(); ++it){
-		cout << it->first << " " << it->second << endl;
-	}*/
+	//
 
-	player p("david");
-	p.save();
+	Game game;
+	try{
+		game.start_game(argv[args::game_name]);
+	}
+	catch(int e){ //game not found
+		handleErrMessages(e);
+		return e;
+	}
+
+	shared_ptr<Game> game_instance;
+	try{
+		game_instance = game.instance();
+	}
+	catch (int e){
+		handleErrMessages(e);
+		return e;
+	}
+
+	
 
 	char wait;
 	cin >> wait;

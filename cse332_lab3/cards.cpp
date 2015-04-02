@@ -412,7 +412,7 @@ int printCards( std::vector<Card> &cards){
 int usageMessage(const char* pName){
 	try{
 
-		std::cout << "Usage: " << pName << " cards.txt [-shuffle]";
+		std::cout << "Usage: " << pName << " game_name player1_name player2_name" << std::endl;
 		return PRINTEDUSAGEMESSAGE;
 	}
 	catch (int e){
@@ -425,7 +425,7 @@ int usageMessage(const char* pName){
 int usageMessage(const char* pName, const char* errMsg){
 	try{
 
-		std::cout << "Usage: " << pName << " cards.txt [-shuffle]" << std::endl;
+		std::cout << "Usage: " << pName << " game_name player1_name player2_name" << std::endl; 
 		std::cout << errMsg;
 		return PRINTEDUSAGEMESSAGE;
 	}
@@ -482,6 +482,11 @@ void handleErrMessages(const char* pName, int err){
 		break;
 	case NOCOMMANDLINEARGS:
 		std::cout << "\nYou need commands to run this program\n";
+		usageMessage(program_name);
+		break;
+
+	case instance_not_available:
+		std::cout << "\nCould not launch game. Try again\n";
 		usageMessage(program_name);
 		break;
 

@@ -95,7 +95,11 @@
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="cse332_lab3.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="FiveCardDraw.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hand.cpp" />
+    <ClCompile Include="json_parser.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
