@@ -95,7 +95,6 @@
     <ClCompile Include="cards.cpp" />
     <ClCompile Include="cse332_lab3.cpp" />
     <ClCompile Include="Deck.cpp" />
-    <ClCompile Include="FiveCardDraw.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Hand.cpp" />
     <ClCompile Include="json_parser.cpp" />

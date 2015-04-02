@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Game.h"
 #include "FiveCardDraw.h"
 
  std::shared_ptr<Game> Game::instance(){
@@ -17,7 +16,7 @@
 		if (std::regex_match(type, gameTypes)){
 			throw unknown_game;
 		}
-		game = std::static_pointer_cast<Game>(std::make_shared<FiveCardDraw>());
+		//game = std::static_pointer_cast<Game>(std::make_shared<FiveCardDraw>());
 
 	}
 
