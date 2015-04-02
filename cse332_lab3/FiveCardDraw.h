@@ -50,65 +50,76 @@ public:
 		
 		std::cout << p.name << " : " << p.hand << std::endl;
 
-
 		bool valid_response = false;
 		size_t num_cards_to_discard = 0;
-		do{
-			
-			std::cout << "How many cards would you like to discard?\n";
-			std::string num_cards;
-			std::cin >> num_cards;
-			try{
-				
-				num_cards_to_discard = stoi(num_cards);
-				if (0 <= num_cards_to_discard && num_cards_to_discard < 5){
-					valid_response = true;
+		if (!p.isrobot){
+
+
+			do{
+
+				std::cout << "How many cards would you like to discard?\n" << std::endl;
+				std::string num_cards;
+				std::cin >> num_cards;
+				try{
+
+					num_cards_to_discard = stoi(num_cards);
+					if (0 <= num_cards_to_discard && num_cards_to_discard < 5){
+						valid_response = true;
+					}
+					else
+						throw BADINPUT;
+
 				}
-				else
-					throw BADINPUT;
-				
-			}
-			
-			catch (const std::invalid_argument& ia){
-				std::cout << "You must enter a number.\n" << ia.what() << std::endl;
-			}
-			catch (...){
-				std::cout << "Invalid Input\nYou may discard 0-4 cards\n";
 
-			}
-
-		} while (!valid_response);
-
-		valid_response = false;
-		
-		while (num_cards_to_discard){
-			std::cout << p.name << " : " << p.hand << std::endl;
-			std::cout << "Which cards would you like to discard?\n";
-			std::string response;
-			std::cin >> response;
-			try{
-				size_t position = stoi(response);
-				Card actual_card = p.hand[position];
-				discard_deck.add_card(actual_card);
-				p.hand.remove_card(position);
-				--num_cards_to_discard;
-			}
-			catch (int e){
-				switch (e){
-				case HANDOUTOFBOUNDS:
-					std::cout << "No card at that position\n";
-					break;
-				default:
-					std::cout << "Invalid Input\n";
+				catch (const std::invalid_argument& ia){
+					std::cout << "You must enter a number.\n" << ia.what() << std::endl;
 				}
-				
+				catch (...){
+					std::cout << "Invalid Input\nYou may discard 0-4 cards\n" << std::endl;
+
+				}
+
+			} while (!valid_response);
+
+			valid_response = false;
+
+			while (num_cards_to_discard){
+				std::cout << p.name << " : " << p.hand << std::endl;
+				std::cout << "Which cards would you like to discard?\n" << std::endl;
+				std::string response;
+				std::cin >> response;
+				try{
+					size_t position = stoi(response);
+					Card actual_card = p.hand[position];
+					discard_deck.add_card(actual_card);
+					p.hand.remove_card(position);
+					--num_cards_to_discard;
+				}
+				catch (int e){
+					switch (e){
+					case HANDOUTOFBOUNDS:
+						std::cout << "No card at that position\n" << std::endl;
+						break;
+					default:
+						std::cout << "Invalid Input\n" << std::endl;
+					}
+
+				}
+				catch (const std::invalid_argument& ia){
+					std::cout << "You must enter a number.\n" << ia.what() << std::endl;
+				}
+
 			}
-			catch (const std::invalid_argument& ia){
-				std::cout << "You must enter a number.\n" << ia.what() << std::endl;
-			}
-			
 		}
-		
+		else{
+			p.get_decision();
+			for (auto i = p.card_discard_positions.begin(); i != p.card_discard_positions.end(); ++i){
+				Card actual_card = p.hand[*i];
+				discard_deck.add_card(actual_card);
+				p.hand.remove_card(*i);
+			}
+			p.clear_decision();
+		}
 		return SUCCESS;
 	}
 
@@ -172,10 +183,18 @@ public:
 			if (p == temp_players.begin()){
 				std::cout << "\nPlayer: " << (*p)->name << " won" << std::endl;
 				(*(*p)).games_won++;
-
+				(*p)->my_win_low = player::win_low::win;
 			}
-			else
+			else{
 				(*(*p)).games_lost++;
+				(*p)->my_win_low = player::win_low::ok;
+			}
+
+			if (p == temp_players.end() - 1){
+
+				(*p)->my_win_low = player::win_low::low;
+			}
+				
 		}
 
 		for (auto p = temp_players.begin(); p != temp_players.end(); ++p){
@@ -243,6 +262,43 @@ public:
 			}
 		} while (players_want_to_join);
 		
+		std::vector<int> deletion_position;
+		for (int i = players.end() - players.begin()-1; i >= 0; --i){
+			if (players[i]->isrobot){
+				int chance = std::rand() % 100;
+				switch (players[i]->my_win_low)
+				{
+				case player::win_low::win:
+					if (chance >= 90){
+						deletion_position.push_back(i);
+
+					}
+					break;
+				case player::win_low::ok:
+					if (chance >= 50){
+
+						deletion_position.push_back(i);
+					}
+
+
+					break;
+				case player::win_low::low:
+					if (chance >= 50){
+						deletion_position.push_back(i);
+					}
+
+
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		for (auto i = deletion_position.begin(); i != deletion_position.end(); i++){
+			players[*i]->save();
+			remove_player(players[*i]->name.c_str());
+		}
 		return SUCCESS;
 	}
 };

@@ -3,6 +3,12 @@
 #include <iostream>
 
 player::player(std::string n){
+	
+	if (n.back() == '*'){
+		isrobot = true;
+		n = n.substr(0,n.size()-1);
+	}
+	
 	name = n;
 	games_lost = 0;
 	games_won = 0;
@@ -45,18 +51,88 @@ player::player(std::string n){
 	}
 }
 
+player::~player(){
+	save();
+}
+
 void player::save(){
 	std::map<std::string, std::string> obj;
 	obj["name"] = name;
 	obj["games_lost"] = std::to_string(games_lost);
 	obj["games_won"] = std::to_string(games_won);
 	std::string json = json_parser::export_json(obj);
+
 	std::ofstream out;
 	out.open(name);
 	if (out.is_open()){
 		out << json;
 		out.close();
 	}
+}
+
+void player::get_decision(){
+	std::vector<Card> temp_hand = this->hand.getCards();
+	int hand_value = static_cast<int>(std::floor(((float)checkHand(temp_hand)) / ((float)(CARDWEIGHT_TOTAL))));
+
+	switch (hand_value)
+	{
+	case UNRANKED:
+		card_discard_positions = { 2, 1, 0 };
+	case ONEPAIR:
+
+		if (temp_hand[1].rank == temp_hand[0].rank){
+			card_discard_positions = { 4, 3, 2 };
+		}
+		else if (temp_hand[1].rank == temp_hand[2].rank){
+			card_discard_positions = { 4, 3, 0 };
+		}
+		else if (temp_hand[3].rank == temp_hand[2].rank){
+			card_discard_positions = { 4, 2, 1 };
+		}
+		else if (temp_hand[3].rank == temp_hand[4].rank){
+			card_discard_positions = { 2, 1, 0 };
+		}
+		break;
+
+	case TWOPAIR:
+		if (temp_hand[0].rank != temp_hand[1].rank){
+			card_discard_positions = { 0 };
+		}
+		else if (temp_hand[2].rank != temp_hand[1].rank && temp_hand[2].rank != temp_hand[3].rank){
+
+			card_discard_positions = { 2 };
+		}
+		else if (temp_hand[4].rank != temp_hand[3].rank){
+
+			card_discard_positions = { 4 };
+		}
+		break;
+
+	case THREEKIND:
+		if (temp_hand[0].rank == temp_hand[2].rank){
+			card_discard_positions = { 4, 3 };
+		}
+		else if (temp_hand[4].rank == temp_hand[2].rank){
+			card_discard_positions = { 1, 0 };
+		}else{
+			card_discard_positions = { 4, 0 };
+		}
+		break;
+	case FOURKIND:
+		if (temp_hand[0].rank == temp_hand[1].rank){
+			card_discard_positions = { 4 };
+		}
+		else{
+			card_discard_positions = { 0 };
+		}
+
+	default:
+		break;
+	}
+}
+
+void player::clear_decision(){
+	card_discard_positions.clear();
 }
 
 bool player::operator==(player & p){

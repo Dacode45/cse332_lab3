@@ -122,23 +122,8 @@ The max rank for a hand is therefore a+b+c+d+e or 537823.
 I can order the hands by multiplying a rank by some integer below
 This allows me to sort and check if hands are equal.
 */
-const unsigned int UNRANKED = 0,
-ONEPAIR = 1,
-TWOPAIR = 2,
-THREEKIND = 3,
-STRAIT = 4,
-FLUSH = 5,
-FULLHOUSE = 6,
-FOURKIND = 7,
-STRAITFLUSH = 8;
 
-const unsigned int CARDWEIGHT_A = 38416,
-CARDWEIGHT_B = 2744,
-CARDWEIGHT_C = 196,
-CARDWEIGHT_D = 14,
-CARDWEIGHT_E = 1;
 
-const unsigned int CARDWEIGHT_TOTAL = (CARDWEIGHT_A + CARDWEIGHT_B + CARDWEIGHT_C + CARDWEIGHT_D + CARDWEIGHT_E) * 13;
 unsigned int checkHand(const std::vector<Card> &cards){
 	//std::sort(cards.begin(), cards.end());
 	int numSpades = 0, numClubs = 0, numDiamonds = 0, numHearts = 0, numSame = 0, numConsecutive = 0;
@@ -333,17 +318,7 @@ bool poker_rank(const Hand& h1, const Hand& h2){
 }
 
 char* hand_type(const Hand& h){
-	int hand_value = std::floor(((float)checkHand(h.getCards())) / ((float)(CARDWEIGHT_TOTAL)));
-	
-	const unsigned int UNRANKED = 0,
-		ONEPAIR = 1,
-		TWOPAIR = 2,
-		THREEKIND = 3,
-		STRAIT = 4,
-		FLUSH = 5,
-		FULLHOUSE = 6,
-		FOURKIND = 7,
-		STRAITFLUSH = 8;
+	int hand_value = static_cast<int>(std::floor(((float)checkHand(h.getCards())) / ((float)(CARDWEIGHT_TOTAL))));
 	
 	switch (hand_value)
 	{

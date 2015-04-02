@@ -37,6 +37,26 @@ bool cmdOptionExists(char** begin, char** end, const std::string& option);
 //lab 2
 bool poker_rank(const Hand& h1, const Hand& h2);
 char* hand_type(const Hand& h);
+unsigned int checkHand(const std::vector<Card> &cards);
+
+const unsigned int UNRANKED = 0,
+ONEPAIR = 1,
+TWOPAIR = 2,
+THREEKIND = 3,
+STRAIT = 4,
+FLUSH = 5,
+FULLHOUSE = 6,
+FOURKIND = 7,
+STRAITFLUSH = 8;
+
+const unsigned int CARDWEIGHT_A = 38416,
+CARDWEIGHT_B = 2744,
+CARDWEIGHT_C = 196,
+CARDWEIGHT_D = 14,
+CARDWEIGHT_E = 1;
+
+const unsigned int CARDWEIGHT_TOTAL = (CARDWEIGHT_A + CARDWEIGHT_B + CARDWEIGHT_C + CARDWEIGHT_D + CARDWEIGHT_E) * 13;
+
 
 const int SUCCESS= 0;
 const int CANTOPENFILE= 1;
