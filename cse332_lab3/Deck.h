@@ -1,3 +1,10 @@
+/*
+Deck.h
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Defines deck which contains a vector of cards and methods to add cards and load them from files
+*/
 #ifndef DECK_H
 #define DECK_H
 
@@ -11,7 +18,7 @@
 
 class Hand;
 class Deck{
-	
+	//Insertion operators
 	friend Hand& operator<<(Hand& h, Deck& d);
 	friend std::ostream& operator<<(std::ostream& out, const Deck& deck);
 public:

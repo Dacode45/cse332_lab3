@@ -1,3 +1,10 @@
+/*
+player.h
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Keeps track of name, wins, losses, Hand, and method for save and comparing
+*/
 #include "stdafx.h"
 #include "card.h"
 #include "Hand.h"
@@ -9,6 +16,7 @@
 #include <iostream>
 #include "json_parser.h"
 
+//Player struct
 struct player{
 	std::string name;
 	bool isrobot = false;

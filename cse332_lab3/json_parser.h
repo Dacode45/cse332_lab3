@@ -1,3 +1,10 @@
+/*
+json_parser.h
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Defines json parser that is how cards are parsed
+*/
 #ifndef JSON_PARSER_H
 #define JSON_PARSER_H
 #include <regex>

@@ -1,3 +1,11 @@
+/*
+Hand.h
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-
+Defines the hand class which has a vector of card objects and can take in cards from decks and has operators defined to compare against other hands
+*/
+
 #ifndef HAND_H
 #define HAND_H
 
@@ -9,6 +17,8 @@
 #include "Deck.h"
 
 class Deck;
+
+
 class Hand{
 	friend std::ostream& operator<<(std::ostream& out,const Hand& h);
 	friend Hand& operator<<( Hand&h ,  Deck& d);
@@ -20,7 +30,8 @@ public:
 	//c++ handles that memory
 
 	unsigned int size() const;
-
+	
+	//Need all these operators
 	Hand& operator=(const Hand& h);
 	bool operator==(const Hand& h);
 	bool operator<(const Hand& h);
@@ -33,6 +44,7 @@ public:
 
 private:
 		std::vector<Card> cards;
+
 };
 
 std::ostream& operator<<(std::ostream& out ,const Hand& h);
