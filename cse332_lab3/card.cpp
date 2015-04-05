@@ -1,4 +1,10 @@
-//Initializing mapping
+/*
+card.cpp
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Defines methods from card.h for comparing cards and getting the rank and suit of chars
+*/
 #include "stdafx.h"
 #include "card.h"
 #include "cards.h"
@@ -6,7 +12,7 @@
  const char* Card::suitMap[5] = {" ", "C", "D", "H", "S" };
  const char* Card::rankMap[14] = { " ", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
 
-
+//less than comparator
 bool operator<(const Card& k, const Card& c){
 	if (k.rank < c.rank){
 		return true;
@@ -17,7 +23,7 @@ bool operator<(const Card& k, const Card& c){
 		return false;
 }
 
-
+//Equivalence comparator
 bool operator==(const Card& k , const Card& c){
 	if (k.rank == c.rank){
 		if (k.suit == c.suit){
@@ -28,7 +34,7 @@ bool operator==(const Card& k , const Card& c){
 }
 
 
-
+//defines a case for char that can be a rank and maps it to the enum value
 int getRankFromChar(char rChar, Card::RANK &rank){
 	int toReturn;
 	switch (rChar){
@@ -110,6 +116,7 @@ int getRankFromChar(char rChar, Card::RANK &rank){
 	return toReturn;
 }
 
+//Does the same thing as previos method but with suits
 int getSuitFromChar(const char sChar, Card::SUIT &suit){
 	switch (sChar)
 	{

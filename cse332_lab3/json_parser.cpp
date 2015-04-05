@@ -1,3 +1,10 @@
+/*
+json_parser.cpp
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+
+*/
 #include "stdafx.h"
 #include <regex>
 #include <map>

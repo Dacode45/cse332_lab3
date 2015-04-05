@@ -1,3 +1,10 @@
+/*
+Hand.cpp
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+
+*/
 #include "stdafx.h"
 #include "Hand.h"
 #include "card.h"
@@ -25,6 +32,7 @@ unsigned int Hand::size() const{
 	return this->cards.size();
 }
 
+//Equivalence method, returns true if all cards are the same
 bool Hand::operator==(const Hand& h){
 	//check same length
 	if (this->size() != h.size()){
@@ -42,6 +50,7 @@ bool Hand::operator==(const Hand& h){
 	}
 	return true;
 }
+
 //lexographically order.
 //uses heuristic to return smaller hand
 bool Hand::operator<(const Hand& h){
@@ -97,6 +106,7 @@ bool Hand::operator<(const Hand& h){
 	return false;
 }
 
+//Define the subscript operator
 Card& Hand::operator[](const size_t nIndex){
 	if (nIndex < this->size() && nIndex >= 0){
 		return cards[nIndex];
@@ -105,6 +115,7 @@ Card& Hand::operator[](const size_t nIndex){
 		throw HANDOUTOFBOUNDS;
 }
 
+//Remove a card from the hand given an index
 void Hand::remove_card(const size_t index){
 	if (index < this->size() && index >= 0){
 		this->cards.erase(this->cards.begin() + index);

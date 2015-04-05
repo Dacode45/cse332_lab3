@@ -1,7 +1,9 @@
 /*
-cards.cpp
-David Ayeke, ayekedavidr@wustl.edu
-Implementation of definitions from cards.h
+card.cpp
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Implementation of functions declared in cards.cpp for parsing cards and getting their ranks, comparing them, and other program functions
 */
 
 #include "stdafx.h"
