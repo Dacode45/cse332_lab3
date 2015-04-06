@@ -8,6 +8,8 @@ and losses are stored for each player and players can decide whether or not they
 A7 - Error message codes can be found in cards.h
 A11 - Extra whitespace is permitted in card input files
 
+Files are explained in a comment header at the top, main function is located in cse332_lab3.cpp
+
 Errors) We didn't run into any errors while testing (hooray).
 
 Testing)
@@ -17,6 +19,7 @@ Command lines that all resulted in this output-"Need Command Line arguments Usag
 -"cse332_lab3.exe FiveCarddraw a"
 
 -"cse332_lab3.exe FiveCarddraw a b" results in " Unknown game type. Try again"
+Program is designed to ignore arguments past when they have already specified two players
 
 
 Extra credit) We implemented a boolean isrobot in the player class to keep track of auto players. Also there is an enum win_low
