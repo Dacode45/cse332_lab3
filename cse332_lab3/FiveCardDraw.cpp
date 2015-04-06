@@ -1,3 +1,10 @@
+/*
+FiveCardDraw.cpp
+Jacob Pepe-jacobpepe@wustl.edi
+Tomer Sabo-tomersabo@wustl.edu
+David Ayeke-ayekedavidr@wustl.edu
+Defines function for playing rounds, including before, during and after. This is where most of the game is played
+*/
 #include "stdafx.h"
 #include "Game.h"
 #include "FiveCardDraw.h"
