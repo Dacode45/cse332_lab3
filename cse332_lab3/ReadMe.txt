@@ -9,3 +9,5 @@ Extra credit)
 
 A7 - Error message codes can be found in cards.h
 A11 - Extra whitespace is permitted in card input files
+
+Errors) We didn't run into any errors while testing (hooray).

@@ -133,8 +133,9 @@ public:
 			}
 		}
 
+		//Figure out which cards for the auto player to discard
 		else{
-			//Figure out which cards for the auto player to discard
+
 			p.get_decision();
 			for (auto i = p.card_discard_positions.begin(); i != p.card_discard_positions.end(); ++i){
 				Card actual_card = p.hand[*i];
@@ -142,6 +143,7 @@ public:
 				p.hand.remove_card(*i);
 			}
 			p.clear_decision();
+
 		}
 		return SUCCESS;
 	}
