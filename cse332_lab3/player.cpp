@@ -159,7 +159,14 @@ void player::get_decision(){
 
 			card_discard_positions = { 1, 0 };
 
-		}else{
+		}
+		else{
+			card_discard_positions = { 4, 0 };
+
+		}
+		break;
+
+	//If they have four of a kind, discard the other one
 	case FOURKIND:
 		if (temp_hand[0].rank == temp_hand[1].rank){
 
@@ -181,23 +188,22 @@ void player::get_decision(){
 
 //Reset the card discard positons
 void player::clear_decision(){
+
 	card_discard_positions.clear();
+
 }
 
 //Define equivalence operator based on name
 bool player::operator==(player & p){
+
 	return this->name == p.name;
+
 }
 
 //Define ostream insertion operator with name and games won/lost
 std::ostream& operator<<(std::ostream& out, const player& p) {
+
 	out << p.name << " games won: " << p.games_won << " games_lost " << p.games_lost;
 	return out;
+
 }
-
-			card_discard_positions = { 4, 0 };
-
-		}
-		break;
-
-	//If they have four of a kind, discard the other one

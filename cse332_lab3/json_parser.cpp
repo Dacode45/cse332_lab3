@@ -3,7 +3,7 @@ json_parser.cpp
 Jacob Pepe-jacobpepe@wustl.edi
 Tomer Sabo-tomersabo@wustl.edu
 David Ayeke-ayekedavidr@wustl.edu
-
+Defines functions created in json_parser that are used when loading files to extract the information about the players
 */
 #include "stdafx.h"
 #include <regex>
@@ -14,6 +14,7 @@ David Ayeke-ayekedavidr@wustl.edu
 #include <sstream>
 #include "json_parser.h"
 
+//
 void json_parser::load_json(const std::string& JSON){
 		empty = true;
 		std::regex object_regex("\\{.+\\}");
@@ -37,6 +38,7 @@ void json_parser::load_json(const std::string& JSON){
 		empty = false;
 	}
 
+//
 std::string json_parser::export_json(){
 		std::stringstream ss;
 		ss << "{ ";
@@ -47,6 +49,7 @@ std::string json_parser::export_json(){
 		return ss.str();
 	}
 
+//
  std::string json_parser::export_json(std::map<std::string, std::string>& o){
 		std::stringstream ss;
 		ss << "{ ";
@@ -57,6 +60,7 @@ std::string json_parser::export_json(){
 		return ss.str();
 	}
 
+//return values given a key
 std::string json_parser::get(const std::string& key){
 		auto it = obj.find(key);
 		if (it != obj.end()){
@@ -66,10 +70,12 @@ std::string json_parser::get(const std::string& key){
 			throw JSONKEYNOTFOUND;
 	}
 
+//Sets the key and value
 void json_parser::set(const std::string& key, const std::string& value){
 		obj[key] = value;
 	}
 
+//Calls load function
 json_parser::json_parser(const std::string& JSON){
 		try{
 			load_json(JSON);
