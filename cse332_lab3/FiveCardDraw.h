@@ -242,7 +242,59 @@ public:
 		}
 		main_deck.collectCards(discard_deck);
 
-		//See if any players want to leaave
+
+		std::vector<int> deletion_position;
+		//Figure out if the robot players are going to leave the game
+		for (int i = players.end() - players.begin() - 1; i >= 0; --i){
+
+			if (players[i]->isrobot){
+				int chance = std::rand() % 100;
+
+				switch (players[i]->my_win_low){
+
+				case player::win_low::win:
+					if (chance >= 90){
+
+						deletion_position.push_back(i);
+
+					}
+					break;
+
+				case player::win_low::ok:
+					if (chance >= 50){
+
+						deletion_position.push_back(i);
+
+					}
+					break;
+
+				case player::win_low::low:
+					if (chance >= 50){
+
+						deletion_position.push_back(i);
+
+					}
+					break;
+
+				default:
+					break;
+
+				}
+
+			}
+
+		}
+
+		//Save the deleted players and then remove them
+		for (auto i = deletion_position.begin(); i != deletion_position.end(); i++){
+
+			players[*i]->save();
+			remove_player(players[*i]->name.c_str());
+
+		}
+
+
+		//See if any players want to leave
 		bool players_want_to_leave = true;
 		do{
 
@@ -323,56 +375,6 @@ public:
 
 		} while (players_want_to_join);
 		
-
-		std::vector<int> deletion_position;
-		//Figure out if the robot players are going to leave the game
-		for (int i = players.end() - players.begin()-1; i >= 0; --i){
-
-			if (players[i]->isrobot){
-				int chance = std::rand() % 100;
-
-				switch (players[i]->my_win_low){
-
-				case player::win_low::win:
-					if (chance >= 90){
-
-						deletion_position.push_back(i);
-
-					}
-					break;
-
-				case player::win_low::ok:
-					if (chance >= 50){
-
-						deletion_position.push_back(i);
-
-					}
-					break;
-
-				case player::win_low::low:
-					if (chance >= 50){
-
-						deletion_position.push_back(i);
-
-					}
-					break;
-
-				default:
-					break;
-
-				}
-
-			}
-
-		}
-
-		//Save the deleted players and then remove them
-		for (auto i = deletion_position.begin(); i != deletion_position.end(); i++){
-
-			players[*i]->save();
-			remove_player(players[*i]->name.c_str());
-
-		}
 
 		return SUCCESS;
 	}
