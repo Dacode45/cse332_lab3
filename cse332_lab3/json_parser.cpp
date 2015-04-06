@@ -14,9 +14,11 @@ Defines functions created in json_parser that are used when loading files to ext
 #include <sstream>
 #include "json_parser.h"
 
-//
+//Function for loading JSON data
 void json_parser::load_json(const std::string& JSON){
 		empty = true;
+
+		//Create regex expression
 		std::regex object_regex("\\{.+\\}");
 		std::smatch object_matches;
 		std::regex_match(JSON, object_matches, object_regex);
@@ -29,6 +31,7 @@ void json_parser::load_json(const std::string& JSON){
 		std::regex field_regex("(\\w+\\s*):(\\s*\\w+)");
 		std::smatch field_matches;
 
+		//Search for matching fields
 		while (std::regex_search(field, field_matches, field_regex)){
 
 			obj.insert(std::make_pair(field_matches[1], field_matches[2]));
@@ -38,7 +41,7 @@ void json_parser::load_json(const std::string& JSON){
 		empty = false;
 	}
 
-//
+//export as string
 std::string json_parser::export_json(){
 		std::stringstream ss;
 		ss << "{ ";
@@ -49,7 +52,7 @@ std::string json_parser::export_json(){
 		return ss.str();
 	}
 
-//
+//overloaded export that takes in map of strings to strings
  std::string json_parser::export_json(std::map<std::string, std::string>& o){
 		std::stringstream ss;
 		ss << "{ ";
